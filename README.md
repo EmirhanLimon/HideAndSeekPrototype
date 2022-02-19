@@ -1,8 +1,21 @@
 # HideAndSeekPrototype-Blueprint
 
-
-
-
-![GameOver](https://user-images.githubusercontent.com/59826343/150996361-9c9dab1e-1989-447c-9269-e956b6208ad4.PNG)
-![Buttons](https://user-images.githubusercontent.com/59826343/150996370-6736103e-66b7-4cf8-8ce3-455dfeea9638.PNG)
 ![RandomRespawn](https://user-images.githubusercontent.com/59826343/150996373-ce660996-2e45-4a20-b0a6-6a0d4bcfff80.PNG)
+![Level](https://user-images.githubusercontent.com/59826343/154795511-8fdf2866-e08b-43a6-9335-74a171225d59.PNG)
+![LoadGame](https://user-images.githubusercontent.com/59826343/154795547-54871a5b-e0e1-4617-830a-82a1f63babeb.PNG)
+![SaveGameEvent](https://user-images.githubusercontent.com/59826343/154795548-1885465b-8402-4be5-8130-901089eb75ed.PNG)
+![LoadGameEvent](https://user-images.githubusercontent.com/59826343/154795549-bbdef02d-7cf6-4b67-b903-b869530ea02d.PNG)
+![Buttons](https://user-images.githubusercontent.com/59826343/154795550-77f04c1e-8c28-4d53-b8d1-8851d31bbb09.PNG)
+![MakeNoise](https://user-images.githubusercontent.com/59826343/154795551-dfa4f1e2-c782-4508-9f33-6a1dffd1a11f.PNG)
+![GameOver](https://user-images.githubusercontent.com/59826343/154795553-09a79d52-94cf-4f1e-8fc8-0ec6890f9153.PNG)
+![Gold](https://user-images.githubusercontent.com/59826343/154795554-1b9bcf82-8e11-4110-b66b-ddc04781d55c.PNG)
+![UseBlueGlow](https://user-images.githubusercontent.com/59826343/154795562-e65d590a-4526-4068-9682-feb99479b63d.PNG)
+![BuyBlueGlow](https://user-images.githubusercontent.com/59826343/154795565-c17380f3-5cfe-41a4-8eb1-a0c0acbf63ec.PNG)
+![UsePinkGlow](https://user-images.githubusercontent.com/59826343/154795566-36887419-b611-4793-b475-211b455b4c89.PNG)
+![BuyPinkGlow](https://user-images.githubusercontent.com/59826343/154795567-5b3e95c8-e233-4e7c-bbb4-2ae2f97f8811.PNG)
+![UseGreenGlow](https://user-images.githubusercontent.com/59826343/154795568-3998fffa-6688-4520-b733-2a64c6dcfc38.PNG)
+![BuyGreenGlow](https://user-images.githubusercontent.com/59826343/154795569-3987b81e-e376-4499-83d4-c31406c21178.PNG)
+![UseRGBGlow](https://user-images.githubusercontent.com/59826343/154795570-80d57d1a-581c-4193-abb0-7041879b1815.PNG)
+![BuyRGBGlow](https://user-images.githubusercontent.com/59826343/154795571-4d1e24a6-cc24-4a72-bb99-37b6ca1da736.PNG)
+![UseDefaultGlow](https://user-images.githubusercontent.com/59826343/154795574-28d10dab-25aa-475c-b675-8772df04d5c1.PNG)
+![UseGlow](https://user-images.githubusercontent.com/59826343/154795575-573d949e-d6b9-4ee8-8114-3ab80907cab3.PNG)
