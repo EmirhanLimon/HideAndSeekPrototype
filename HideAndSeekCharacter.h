@@ -29,7 +29,13 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
-
+	UFUNCTION()
+		void SpeedPlusFun();
+	UFUNCTION()
+		void SpeedNegativeFun();
+	UPROPERTY()
+		FTimerHandle Timer;
+	
 	
 
 protected:
@@ -73,18 +79,29 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 	
-	UPROPERTY(EditDefaultsOnly)
-		class UBoxComponent* HideAndSeekCharacterComp;
+	
 	UPROPERTY(EditDefaultsOnly)
 		class UCapsuleComponent* HideAndSeekCharacterCompCapsule;
+	
 	UFUNCTION()
 		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float GameOver;
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int Score;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int Tetik;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int Tetik2;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int SwordTetik;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int TakeSword;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int AIScore;
+	
+	
 	
 };
 

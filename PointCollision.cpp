@@ -9,10 +9,7 @@ APointCollision::APointCollision()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	//oluþturduk
-	//BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCompCpp"));
-	//Karaktere bagladýk
-	//BoxCollision->SetupAttachment(GetComponents());
+	
 	Deneme = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
 	Deneme->SetupAttachment(GetRootComponent());
 }
@@ -32,25 +29,7 @@ void APointCollision::Tick(float DeltaTime)
 
 }
 
-/*void APointCollision::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
-	bool bFromSweep, const FHitResult& SweepResult)
-{
-	AHideAndSeekCharacter* CollisionScore = Cast<AHideAndSeekCharacter>(OtherActor);
 
-	
-	
-	if (CollisionScore) {
-		
-		Score++;
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT("Skor : %i"), Score));
-		//FTimerHandle Timer;
-		//GetWorldTimerManager().SetTimer(Timer, this, &APointCollision::ScoreFunction, 0.1f);
-		
-	}
-	
-	
-}*/
 
 
 

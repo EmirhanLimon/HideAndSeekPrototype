@@ -4,18 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "PointCollision.generated.h"
+#include "MyActor.generated.h"
 
 UCLASS()
-class HIDEANDSEEK_API APointCollision : public AActor
+class HIDEANDSEEK_API AMyActor : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	APointCollision();
-
-	
+	AMyActor();
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,7 +24,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* Deneme;
-	
-	
+		UStaticMeshComponent* SpeedPlusaa;
+
 };

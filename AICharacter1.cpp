@@ -5,23 +5,23 @@
 #include "AIController.h"
 #include "NavigationSystem.h"
 #include "Perception/PawnSensingComponent.h"
-// Sets default values
+#include "GameFramework/CharacterMovementComponent.h"
+
 
 
 
 AAICharacter1::AAICharacter1()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ 	
 	PrimaryActorTick.bCanEverTick = true;
 
 	
 	PawnSensing = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensing"));
 	
-	//Karaktere bagladýk
-	//AIBoxCollision1->SetupAttachment(GetRootComponent());
+	
 }
 
-// Called when the game starts or when spawned
+
 void AAICharacter1::BeginPlay()
 {
 	
@@ -31,7 +31,7 @@ void AAICharacter1::BeginPlay()
 	
 	
 	PawnSensing->OnSeePawn.AddDynamic(this, &AAICharacter1::SeePawn);
-	
+	PawnSensing->OnHearNoise.AddDynamic(this, &AAICharacter1::OnHearNoise);
 
 	UNavigationSystemV1* NavSys = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
 	FNavLocation NavLoc;
@@ -40,14 +40,26 @@ void AAICharacter1::BeginPlay()
 	AIC_Ref = Cast<AAIController>(GetController());
 	if (AIC_Ref)
 	{
-		AIC_Ref->MoveToLocation(NavLoc.Location);
+		AIC_Ref->MoveToLocation(FVector(-7750.f, 3480.f,  160.f));
 		
 		
-		GetWorldTimerManager().SetTimer(Timer, this, &AAICharacter1::BeginPlay,2.0f);
-		
+		GetWorldTimerManager().SetTimer(Timer, this, &AAICharacter1::NewMovement,4.0f);
+		GetCharacterMovement()->MaxWalkSpeed = 1500;
 	}
 	
 	
+}
+void AAICharacter1::NewMovement()
+{
+	AIC_Ref = Cast<AAIController>(GetController());
+	if (AIC_Ref)
+	{
+		AIC_Ref->MoveToLocation(FVector(820.f,3410.f,218.f));
+
+
+		GetWorldTimerManager().SetTimer(Timer, this, &AAICharacter1::BeginPlay, 4.0f);
+
+	}
 }
 void AAICharacter1::SeePawn(APawn* Pawn)
 {
@@ -60,13 +72,30 @@ void AAICharacter1::SeePawn(APawn* Pawn)
 		GetWorldTimerManager().ClearTimer(Timer);
 		
 		
-		AIC_Ref->MoveToLocation(GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation(),-1);
-
+		AIC_Ref->MoveToLocation(GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation(),-1.0f);
+		GetCharacterMovement()->MaxWalkSpeed = 2500;
 		GetWorldTimerManager().SetTimer(Timer, this, &AAICharacter1::BeginPlay, 2.0f);
 		
 	}
 	
 }
+
+void AAICharacter1::OnHearNoise(APawn* OtherActor, const FVector& Location, float Volume)
+{
+	AHideAndSeekCharacter* AIHear1 = Cast<AHideAndSeekCharacter>(OtherActor);
+
+	if (AIHear1)
+	{
+		GetWorldTimerManager().ClearTimer(Timer);
+
+
+		AIC_Ref->MoveToLocation(GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation(), -1);
+
+		GetWorldTimerManager().SetTimer(Timer, this, &AAICharacter1::BeginPlay, 2.0f);
+		GetCharacterMovement()->MaxWalkSpeed = 2000;
+	}
+}
+
 
 
 

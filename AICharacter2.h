@@ -30,7 +30,10 @@ public:
 		UPawnSensingComponent* PawnSensing2;
 	UFUNCTION()
 		void SeePawn(APawn* Pawn);
-
+	UFUNCTION()
+		void NewMovement();
+	UFUNCTION()
+		void OnHearNoise(APawn* OtherActor, const FVector& Location, float Volume);
 	
 	
 	UPROPERTY()

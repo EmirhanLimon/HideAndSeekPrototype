@@ -6,6 +6,7 @@
 #include "AIController.h"
 #include "NavigationSystem.h"
 #include "Perception/PawnSensingComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AAICharacter3::AAICharacter3()
@@ -24,6 +25,7 @@ void AAICharacter3::BeginPlay()
 	
 	
 	PawnSensing3->OnSeePawn.AddDynamic(this, &AAICharacter3::SeePawn);
+	PawnSensing3->OnHearNoise.AddDynamic(this, &AAICharacter3::OnHearNoise);
 
 	UNavigationSystemV1* NavSys = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
 	FNavLocation NavLoc;
@@ -32,10 +34,22 @@ void AAICharacter3::BeginPlay()
 	AIC_Ref = Cast<AAIController>(GetController());
 	if (AIC_Ref)
 	{
-		AIC_Ref->MoveToLocation(NavLoc.Location);
+		AIC_Ref->MoveToLocation(FVector(-5770.f,-350.f,160.f));
 
 		
-		GetWorldTimerManager().SetTimer(Timer, this, &AAICharacter3::BeginPlay, 2.f);
+		GetWorldTimerManager().SetTimer(Timer, this, &AAICharacter3::NewMovement, 4.f);
+		GetCharacterMovement()->MaxWalkSpeed = 1500;
+	}
+}
+void AAICharacter3::NewMovement()
+{
+	AIC_Ref = Cast<AAIController>(GetController());
+	if (AIC_Ref)
+	{
+		AIC_Ref->MoveToLocation(FVector(1059.f,-440.f,288.f));
+
+
+		GetWorldTimerManager().SetTimer(Timer, this, &AAICharacter3::BeginPlay, 4.f);
 	}
 }
 
@@ -55,9 +69,24 @@ void AAICharacter3::SeePawn(APawn* Pawn)
 		GetWorldTimerManager().ClearTimer(Timer);
 
 		AIC_Ref->MoveToLocation(GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation(),-1);
-
+		
 		GetWorldTimerManager().SetTimer(Timer, this, &AAICharacter3::BeginPlay, 2.0f);
+		GetCharacterMovement()->MaxWalkSpeed = 2500;
 	}
 
 }
+void AAICharacter3::OnHearNoise(APawn* OtherActor, const FVector& Location, float Volume)
+{
+	AHideAndSeekCharacter* AIHear3 = Cast<AHideAndSeekCharacter>(OtherActor);
 
+	if (AIHear3)
+	{
+		GetWorldTimerManager().ClearTimer(Timer);
+
+
+		AIC_Ref->MoveToLocation(GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation(), -1);
+
+		GetWorldTimerManager().SetTimer(Timer, this, &AAICharacter3::BeginPlay, 2.0f);
+		GetCharacterMovement()->MaxWalkSpeed = 2000;
+	}
+}

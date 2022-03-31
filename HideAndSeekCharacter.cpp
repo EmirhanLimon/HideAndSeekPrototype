@@ -10,7 +10,6 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include <Runtime/Engine/Classes/Kismet/GameplayStatics.h>
-#include "Components/BoxComponent.h"
 #include "Components/SphereComponent.h"
 #include "AICharacter1.h"
 #include "AICharacter2.h"
@@ -18,6 +17,9 @@
 #include "AICharacter4.h"
 #include "AICharacter5.h"
 #include "PointCollision.h"
+#include "SpeedPlusCollision.h"
+#include "SpeedNegativeCollision.h"
+#include "SwordCollision.h"
 
 
 
@@ -27,7 +29,7 @@
 AHideAndSeekCharacter::AHideAndSeekCharacter()
 {
 	
-	//HideAndSeekCharacterComp = CreateDefaultSubobject<UBoxComponent>(TEXT("HideAndSeekCharacterCompCpp"));
+	
 	HideAndSeekCharacterCompCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("HideAndSeekCharacterCompCapsuleCpp"));
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -100,6 +102,8 @@ void AHideAndSeekCharacter::BeginPlay()
 
 }
 
+
+
 void AHideAndSeekCharacter::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AAICharacter1* Carp1 = Cast<AAICharacter1>(OtherActor);
@@ -108,36 +112,112 @@ void AHideAndSeekCharacter::BeginOverlap(UPrimitiveComponent* OverlappedComponen
 	AAICharacter4* Carp4 = Cast<AAICharacter4>(OtherActor);
 	AAICharacter5* Carp5 = Cast<AAICharacter5>(OtherActor);
 	APointCollision* Point = Cast<APointCollision>(OtherActor);
+	ASpeedPlusCollision* SpeedPlus = Cast<ASpeedPlusCollision>(OtherActor);
+	ASpeedNegativeCollision* SpeedNegative = Cast<ASpeedNegativeCollision>(OtherActor);
+	ASwordCollision* SwordPlus = Cast<ASwordCollision>(OtherActor);
 	
 
 	if (Carp1 || Carp2 || Carp3 || Carp4 || Carp5)
 	{
-		GameOver = 1;
+		if (TakeSword == 1 && (Carp1 || Carp2 || Carp3 || Carp4 || Carp5))
+		{
+			AIScore++;
+
+			if (Carp1)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, TEXT("AI KILL"));
+				TakeSword = 0;
+				Carp1->Destroy();
+				
+			}
+			if (Carp2)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, TEXT("AI KILL"));
+				TakeSword = 0;
+				Carp2->Destroy();
+				
+			}
+			if (Carp3)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, TEXT("AI KILL"));
+				TakeSword = 0;
+				Carp3->Destroy();
+			}
+			if (Carp4)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, TEXT("AI KILL"));
+				TakeSword = 0;
+				Carp4->Destroy();
+			}
+			if (Carp5)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, TEXT("AI KILL"));
+				TakeSword = 0;
+				Carp5->Destroy();
+			}
+			
+		}
+		else
+		{
+			GameOver = 1;
+		}
+		
 		
 	}
-	if (Point)
+	if (Point) 
 	{
 		Score++;
+		
 		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT("Skor : %i"), Score));
 		Point->Destroy();
 		Tetik = 0;
 	}
+	if (SpeedPlus)
+	{
+		
+		GetCharacterMovement()->MaxWalkSpeed = 4000;
+		SpeedPlus->Destroy();
+		Tetik2 = 0;
+		GetWorldTimerManager().SetTimer(Timer, this, &AHideAndSeekCharacter::SpeedPlusFun, 3.0f);
+		
+		
+	}
+	if (SpeedNegative)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = 1250;
+		SpeedNegative->Destroy();
+		Tetik2 = 0;
+		GetWorldTimerManager().SetTimer(Timer, this, &AHideAndSeekCharacter::SpeedNegativeFun, 3.0f);
+	}
+	if (SwordPlus)
+	{
+		if (TakeSword == 0)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, TEXT("Aldim"));
+			SwordTetik = 0;
+			TakeSword = 1;
+			SwordPlus->Destroy();
+		}
+		
+	}
+	
 	
 
 }
-
-
+void AHideAndSeekCharacter::SpeedPlusFun()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 2000;
+}
+void AHideAndSeekCharacter::SpeedNegativeFun()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 2000;
+}
 
 
 
 void AHideAndSeekCharacter::OnResetVR()
 {
-	// If HideAndSeek is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in HideAndSeek.Build.cs is not automatically propagated
-	// and a linker error will result.
-	// You will need to either:
-	//		Add "HeadMountedDisplay" to [YourProject].Build.cs PublicDependencyModuleNames in order to build successfully (appropriate if supporting VR).
-	// or:
-	//		Comment or delete the call to ResetOrientationAndPosition below (appropriate if not supporting VR)
+	
 	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 }
 

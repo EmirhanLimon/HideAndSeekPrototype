@@ -33,7 +33,10 @@ public:
 		UPawnSensingComponent* PawnSensing5;
 	UFUNCTION()
 		void SeePawn(APawn* Pawn);
-
+	UFUNCTION()
+		void OnHearNoise(APawn* OtherActor, const FVector& Location, float Volume);
+	UFUNCTION()
+		void NewMovement();
 	
 	UPROPERTY(EditDefaultsOnly)
 		FTimerHandle Timer;
